@@ -9,16 +9,14 @@ public class GdataTemplate implements Gdata, ApiBinding {
 	
 	private String accessToken;
 	private String applicationName;
-	private String userId;
 	
 	private SpreadsheetOperations spreadsheetOperations;
 	private PicasawebOperations picasawebOperations;
 
-	public GdataTemplate(String accessToken, String applicationName, String userId) {
+	public GdataTemplate(String accessToken, String applicationName) {
 		super();
 		this.accessToken = accessToken;
 		this.applicationName = applicationName;
-		this.userId = userId;
 	}
 	
 	public boolean isAuthorized() {
@@ -34,7 +32,7 @@ public class GdataTemplate implements Gdata, ApiBinding {
 
 	public PicasawebOperations picasawebOperations() {
 		if (picasawebOperations==null) {
-			picasawebOperations = new PicasawebTemplate(accessToken, applicationName, userId, isAuthorized());
+			picasawebOperations = new PicasawebTemplate(accessToken, applicationName, isAuthorized());
 		}
 		return picasawebOperations;
 	}

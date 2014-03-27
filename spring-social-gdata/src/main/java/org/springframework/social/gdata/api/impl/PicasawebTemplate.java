@@ -8,6 +8,7 @@ import org.springframework.social.gdata.api.PicasawebOperations;
 
 import com.google.gdata.client.photos.PicasawebService;
 import com.google.gdata.data.IEntry;
+import com.google.gdata.data.media.MediaSource;
 import com.google.gdata.data.photos.AlbumEntry;
 import com.google.gdata.data.photos.AlbumFeed;
 import com.google.gdata.data.photos.PhotoEntry;
@@ -15,12 +16,14 @@ import com.google.gdata.data.photos.UserFeed;
 
 public class PicasawebTemplate extends AbstractGdataOperations<PicasawebService> implements PicasawebOperations {
 
-	private String userId;
+	private String defaultUserId = "default";
+	private String defaultAlbumId = "default";
 	
-	public PicasawebTemplate(String accessToken, String applicationName, String userId,
+	private static final String BASE_DATA_FEED_URL = "https://picasaweb.google.com/data/feed";
+	
+	public PicasawebTemplate(String accessToken, String applicationName,
 			boolean isAuthorized) {
 		super(accessToken, applicationName, isAuthorized);
-		this.userId = userId;
 	}
 
 	public PicasawebService getPicasawebService(String applicationName) {
@@ -35,7 +38,7 @@ public class PicasawebTemplate extends AbstractGdataOperations<PicasawebService>
 	protected UserFeed getUserFeed(String userId) {
 		URL feedUrl=null;
 		try {
-			feedUrl = new URL("https://picasaweb.google.com/data/feed/api/user/"+userId+"?kind=album");
+			feedUrl = new URL(BASE_DATA_FEED_URL+"/api/user/"+userId+"?kind=album");
 		} catch (MalformedURLException e) {}
 		
 		try {
@@ -48,7 +51,7 @@ public class PicasawebTemplate extends AbstractGdataOperations<PicasawebService>
 	protected AlbumFeed getAlbumFeed(String userId, String albumId) {
 		URL feedUrl=null;
 		try {
-			feedUrl = new URL("https://picasaweb.google.com/data/feed/api/user/"+userId+"/albumid/"+albumId);
+			feedUrl = new URL(BASE_DATA_FEED_URL+"/api/user/"+userId+"/albumid/"+albumId);
 		} catch (MalformedURLException e) {}
 		
 		try {
@@ -61,7 +64,7 @@ public class PicasawebTemplate extends AbstractGdataOperations<PicasawebService>
 	protected AlbumFeed getAlbumFeed(String userId) {
 		URL feedUrl=null;
 		try {
-			feedUrl = new URL("https://picasaweb.google.com/data/feed/api/user/"+userId+"?kind=photo");
+			feedUrl = new URL(BASE_DATA_FEED_URL+"/api/user/"+userId+"?kind=photo");
 		} catch (MalformedURLException e) {}
 		
 		try {
@@ -71,9 +74,16 @@ public class PicasawebTemplate extends AbstractGdataOperations<PicasawebService>
 		} 
 	}
 	
-	protected URL getPostUrl(String userId) {
+	protected URL getPostAlbumUrl(String userId) {
 		try {
-			return new URL("https://picasaweb.google.com/data/feed/api/user/"+userId);
+			return new URL(BASE_DATA_FEED_URL+"/api/user/"+userId);
+		} catch (MalformedURLException e) {}
+		return null;
+	}
+	
+	protected URL getPostPhotoUrl(String userId, String albumId) {
+		try {
+			return new URL(BASE_DATA_FEED_URL+"/api/user/"+userId+"/albumid/"+albumId);
 		} catch (MalformedURLException e) {}
 		return null;
 	}
@@ -83,23 +93,31 @@ public class PicasawebTemplate extends AbstractGdataOperations<PicasawebService>
 	}
 	
 	public List<AlbumEntry> getMyAlbums() {
-		return getUserFeed(userId).getAlbumEntries();
+		return getUserFeed(defaultUserId).getAlbumEntries();
 	}
 	
-	protected <E extends IEntry> E add(String userId, E album) {
+	protected <E extends IEntry> E add(URL url, E entry) {
 		try {
-			return getService().insert(getPostUrl(userId), album);
+			return getService().insert(url, entry);
+		} catch (Exception e) {
+			throw new RuntimeException(e);
+		} 
+	}
+	
+	protected <E extends IEntry> E add(URL url, Class<E> entryClass, MediaSource media) {
+		try {
+			return getService().insert(url, entryClass, media);
 		} catch (Exception e) {
 			throw new RuntimeException(e);
 		} 
 	}
 
 	public AlbumEntry addAlbum(String userId, AlbumEntry album) {
-		return add(userId, album);
+		return add(getPostAlbumUrl(userId), album);
 	}
 	
 	public AlbumEntry addAlbum(AlbumEntry album) {
-		return add(userId, album);
+		return add(getPostAlbumUrl(defaultUserId), album);
 	}
 	
 	public List<PhotoEntry> getPhotos(String userId, String albumId) {
@@ -111,6 +129,30 @@ public class PicasawebTemplate extends AbstractGdataOperations<PicasawebService>
 	}
 	
 	public List<PhotoEntry> getMyPhotos() {
-		return getAlbumFeed(userId).getPhotoEntries();
+		return getAlbumFeed(defaultUserId).getPhotoEntries();
+	}
+	
+	public PhotoEntry addPhoto(String userId, String albumId, PhotoEntry photo) {
+		return add(getPostPhotoUrl(userId, albumId), photo);
+	}
+	
+	public PhotoEntry addPhoto(String albumId, PhotoEntry photo) {
+		return add(getPostPhotoUrl(defaultUserId, albumId), photo);
+	}
+	
+	public PhotoEntry addPhoto(PhotoEntry photo) {
+		return add(getPostPhotoUrl(defaultUserId, defaultAlbumId), photo);
+	}
+	
+	public PhotoEntry addPhoto(String userId, String albumId, MediaSource media) {
+		return add(getPostPhotoUrl(userId, albumId), PhotoEntry.class, media);
+	}
+	
+	public PhotoEntry addPhoto(String albumId, MediaSource media) {
+		return add(getPostPhotoUrl(defaultUserId, albumId), PhotoEntry.class, media);
+	}
+	
+	public PhotoEntry addPhoto(MediaSource media) {
+		return add(getPostPhotoUrl(defaultUserId, defaultAlbumId), PhotoEntry.class, media);
 	}
 }

@@ -31,10 +31,15 @@ public class GdataServiceProvider extends AbstractOAuth2ServiceProvider<Gdata> {
 	
 	@Override
 	public Gdata getApi(String accessToken) {
-		String userId = getGoogleApi(accessToken).userOperations().getUserInfo().getId();
-		return new GdataTemplate(accessToken, applicationName, userId);
+		return new GdataTemplate(accessToken, applicationName);
 	}
 	
+	/**
+	 * Get access to Google+ API
+	 * 
+	 * @param accessToken
+	 * @return
+	 */
 	public Google getGoogleApi(String accessToken) {
 		return delegate.getApi(accessToken);
 	}
