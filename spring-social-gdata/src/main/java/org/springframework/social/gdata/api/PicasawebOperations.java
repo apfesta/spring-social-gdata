@@ -6,6 +6,7 @@ package org.springframework.social.gdata.api;
 import java.util.List;
 
 import com.google.gdata.client.photos.PicasawebService;
+import com.google.gdata.data.media.MediaSource;
 import com.google.gdata.data.photos.AlbumEntry;
 import com.google.gdata.data.photos.PhotoEntry;
 
@@ -34,4 +35,16 @@ public interface PicasawebOperations {
 	public List<PhotoEntry> getPhotos(String userId);
 	
 	public List<PhotoEntry> getMyPhotos();
+	
+	public PhotoEntry addPhoto(String userId, String albumId, PhotoEntry photo);
+	
+	public PhotoEntry addPhoto(String albumId, PhotoEntry photo);
+	
+	public PhotoEntry addPhoto(PhotoEntry photo);
+	
+	public PhotoEntry addPhoto(String userId, String albumId, MediaSource media);
+	
+	public PhotoEntry addPhoto(String albumId, MediaSource media);
+	
+	public PhotoEntry addPhoto(MediaSource media);
 }
