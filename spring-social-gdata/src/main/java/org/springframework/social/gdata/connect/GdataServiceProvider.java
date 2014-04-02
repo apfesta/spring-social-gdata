@@ -16,22 +16,20 @@ import org.springframework.social.oauth2.AbstractOAuth2ServiceProvider;
  */
 public class GdataServiceProvider extends AbstractOAuth2ServiceProvider<Gdata> {
 
-	String applicationName;
 	GoogleServiceProvider delegate;
 	
-	public GdataServiceProvider(String clientId, String clientSecret, String applicationName) {
-		this(new GoogleServiceProvider(clientId, clientSecret), applicationName);
+	public GdataServiceProvider(String clientId, String clientSecret) {
+		this(new GoogleServiceProvider(clientId, clientSecret));
 	}
 	
-	GdataServiceProvider(GoogleServiceProvider delegate, String applicationName) {
+	GdataServiceProvider(GoogleServiceProvider delegate) {
 		super(delegate.getOAuthOperations());
 		this.delegate = delegate;
-		this.applicationName = applicationName;
 	}
 	
 	@Override
 	public Gdata getApi(String accessToken) {
-		return new GdataTemplate(accessToken, applicationName);
+		return new GdataTemplate(accessToken);
 	}
 	
 	/**

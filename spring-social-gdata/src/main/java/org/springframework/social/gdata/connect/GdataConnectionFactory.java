@@ -15,8 +15,8 @@ import org.springframework.social.oauth2.AccessGrant;
  */
 public class GdataConnectionFactory extends OAuth2ConnectionFactory<Gdata> {
 
-	public GdataConnectionFactory(String clientId, String clientSecret, String applicationName) {
-		super("gdata", new GdataServiceProvider(clientId, clientSecret, applicationName), 
+	public GdataConnectionFactory(String clientId, String clientSecret) {
+		super("gdata", new GdataServiceProvider(clientId, clientSecret), 
 				new GdataAdapter());
 	}
 

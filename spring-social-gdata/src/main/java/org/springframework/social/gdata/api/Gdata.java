@@ -29,5 +29,7 @@ public interface Gdata {
 	 * @return
 	 */
 	PicasawebOperations picasawebOperations();
+	
+	String getAccessToken();
 
 }

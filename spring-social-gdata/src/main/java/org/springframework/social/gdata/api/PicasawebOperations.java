@@ -5,46 +5,68 @@ package org.springframework.social.gdata.api;
 
 import java.util.List;
 
-import com.google.gdata.client.photos.PicasawebService;
-import com.google.gdata.data.media.MediaSource;
-import com.google.gdata.data.photos.AlbumEntry;
-import com.google.gdata.data.photos.PhotoEntry;
+import org.springframework.core.io.Resource;
+import org.springframework.http.MediaType;
+import org.springframework.social.gdata.api.picasa.Album;
+import org.springframework.social.gdata.api.picasa.Photo;
 
 /**
  * @author apfesta
  *
  */
 public interface PicasawebOperations {
-	
-	public PicasawebService getPicasawebService(String applicationName);
-	
+		
 	//Albums
 	
-	public List<AlbumEntry> getAlbums(String userId);
+	public List<Album> getAlbums(String userId);
 	
-	public List<AlbumEntry> getMyAlbums();
+	public List<Album> getMyAlbums();
 	
-	public AlbumEntry addAlbum(String userId, AlbumEntry album);
+	public Album addAlbum(String userId, Album album);
 	
-	public AlbumEntry addAlbum(AlbumEntry album);
+	public Album addAlbum(Album album);
+	
+	public Album updateAlbum(Album album);
 	
 	//Photos
 	
-	public List<PhotoEntry> getPhotos(String userId, String albumId);
+	public List<Photo> getPhotos(String userId, String albumId);
 	
-	public List<PhotoEntry> getPhotos(String userId);
+	public List<Photo> getPhotos(String userId);
 	
-	public List<PhotoEntry> getMyPhotos();
+	public List<Photo> getMyPhotos(String albumId);
 	
-	public PhotoEntry addPhoto(String userId, String albumId, PhotoEntry photo);
+	public List<Photo> getMyPhotos();
 	
-	public PhotoEntry addPhoto(String albumId, PhotoEntry photo);
+	/**
+	 * Posts a photo with meta data
+	 * 
+	 * @param userId
+	 * @param albumId
+	 * @param photo metadata
+	 * @param resource resource containing photo
+	 * @param resourceType MIME photo type
+	 * @return
+	 */
+	public Photo addPhoto(String userId, String albumId, Photo photo, Resource resource, MediaType resourceType);
 	
-	public PhotoEntry addPhoto(PhotoEntry photo);
+	public Photo addPhoto(String albumId, Photo photo, Resource resource, MediaType resourceType);
 	
-	public PhotoEntry addPhoto(String userId, String albumId, MediaSource media);
+	public Photo addPhoto(Photo photo, Resource resource, MediaType resourceType);
 	
-	public PhotoEntry addPhoto(String albumId, MediaSource media);
+	/**
+	 * Posts a photo without meta data
+	 * 
+	 * @param userId
+	 * @param albumId
+	 * @param resource resource containing photo
+	 * @param resourceType MIME photo type
+	 * @return
+	 */
+	public Photo addPhoto(String userId, String albumId, Resource resource, MediaType resourceType);
 	
-	public PhotoEntry addPhoto(MediaSource media);
+	public Photo addPhoto(String albumId, Resource resource, MediaType resourceType);
+	
+	public Photo addPhoto(Resource resource, MediaType resourceType);
+		
 }
