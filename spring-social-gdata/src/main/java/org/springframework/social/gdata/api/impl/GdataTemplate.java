@@ -10,11 +10,11 @@ import org.springframework.http.client.ClientHttpResponse;
 import org.springframework.http.converter.HttpMessageConverter;
 import org.springframework.http.converter.MultipartRelatedHttpMessageConverter;
 import org.springframework.http.converter.ResourceHttpMessageConverter;
-import org.springframework.http.converter.feed.AtomEntryHttpMessageConverter;
-import org.springframework.http.converter.feed.AtomFeedHttpMessageConverter;
 import org.springframework.social.gdata.api.Gdata;
 import org.springframework.social.gdata.api.PicasawebOperations;
 import org.springframework.social.gdata.api.SpreadsheetOperations;
+import org.springframework.social.gdata.api.picasa.xpp.AtomFeedHttpMessageConverter;
+import org.springframework.social.gdata.api.picasa.xpp.AtomEntryHttpMessageConverter;
 import org.springframework.social.oauth2.AbstractOAuth2ApiBinding;
 import org.springframework.social.support.HttpRequestDecorator;
 import org.springframework.web.client.RestTemplate;
@@ -45,8 +45,8 @@ public class GdataTemplate extends AbstractOAuth2ApiBinding implements Gdata {
 	@Override
 	protected List<HttpMessageConverter<?>> getMessageConverters() {
 		List<HttpMessageConverter<?>> messageConverters = super.getMessageConverters();
-		messageConverters.add(new AtomFeedHttpMessageConverter());
 		messageConverters.add(new AtomEntryHttpMessageConverter());
+		messageConverters.add(new AtomFeedHttpMessageConverter());
 		messageConverters.add(new ResourceHttpMessageConverter());
 		messageConverters.add(getMultipartRelatedMessageConverter());
 		return messageConverters;

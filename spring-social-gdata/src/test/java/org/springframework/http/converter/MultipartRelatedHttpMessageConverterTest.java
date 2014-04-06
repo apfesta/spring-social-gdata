@@ -10,17 +10,14 @@ import org.springframework.core.io.Resource;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
-import org.springframework.http.converter.feed.AtomEntryHttpMessageConverter;
 import org.springframework.mock.http.MockHttpOutputMessage;
+import org.springframework.social.gdata.api.picasa.Photo;
+import org.springframework.social.gdata.api.picasa.xpp.AtomEntryHttpMessageConverter;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 
-import com.sun.syndication.feed.atom.Content;
-import com.sun.syndication.feed.atom.Entry;
-
 public class MultipartRelatedHttpMessageConverterTest {
 
-	@Ignore
 	@Test
 	public void test() {
 		
@@ -29,10 +26,9 @@ public class MultipartRelatedHttpMessageConverterTest {
 		
 		Resource resource = new FileSystemResource(new File("/home/apfesta/Desktop/kl_75.png"));
 		
-		Entry entry = new Entry();
+		Photo entry = new Photo();
 		entry.setTitle("kl_75.png");
-		entry.setSummary(new Content());
-		entry.getSummary().setValue("KickballLegends Logo");
+		entry.setSummary("KickballLegends Logo");
 		
 		MultiValueMap<String, HttpEntity<?>> parts = getParts(entry, resource, MediaType.IMAGE_JPEG);
 		

@@ -53,7 +53,7 @@ public class PicasawebTemplateTest extends AbstractGdataTest {
 		mockServer
 		.expect(requestTo("https://picasaweb.google.com/data/feed/api/user/12345"))
 		.andExpect(method(POST))
-		.andExpect(content().contentType(APPLICATION_ATOM_XML_VALUE+";charset=UTF-8"))
+		.andExpect(content().contentType(APPLICATION_ATOM_XML_VALUE))
 		.andRespond(withSuccess(atomResource("createalbum"), APPLICATION_ATOM_XML));
 		
 		Album album = new Album();

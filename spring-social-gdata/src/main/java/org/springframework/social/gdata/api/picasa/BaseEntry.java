@@ -2,9 +2,10 @@ package org.springframework.social.gdata.api.picasa;
 
 import java.util.Date;
 
-public class BaseEntry {
+import org.springframework.social.gdata.api.ApiEntity;
+
+public class BaseEntry extends ApiEntity {
 	
-	private String id;
 	private String gphotoId;
 	private String title;
 	private String summary;
@@ -12,12 +13,6 @@ public class BaseEntry {
 	private Date updatedDate;
 	private String editUrl;
 	
-	public String getId() {
-		return id;
-	}
-	public void setId(String id) {
-		this.id = id;
-	}
 	public String getGphotoId() {
 		return gphotoId;
 	}
