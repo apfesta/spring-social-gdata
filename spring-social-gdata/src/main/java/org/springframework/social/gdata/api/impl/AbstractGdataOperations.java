@@ -14,6 +14,7 @@ import org.springframework.http.HttpMethod;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.social.MissingAuthorizationException;
+import org.springframework.social.gdata.api.ApiEntity;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestTemplate;
@@ -48,13 +49,21 @@ public abstract class AbstractGdataOperations {
 		return restTemplate.exchange(url, HttpMethod.GET, entity, type).getBody();
 	}
 	
-	protected <T> T saveEntity(String url, T entity) {
+	protected <T extends ApiEntity> T saveEntity(String url, T entity) {
 		HttpHeaders headers = new HttpHeaders();
 		headers.setContentType(MediaType.APPLICATION_ATOM_XML);
 		
+		HttpMethod method;
+		if (entity.getId()!=null) {
+			method = HttpMethod.PUT;
+			headers.set("If-Match", entity.getEtag());
+		} else {
+			method = HttpMethod.POST;
+		}
+				
 		@SuppressWarnings("unchecked")
 		ResponseEntity<T> response = 
-				restTemplate.exchange(url, HttpMethod.POST, 
+				restTemplate.exchange(url, method, 
 						new HttpEntity<T>(entity, headers), 
 						(Class<T>)entity.getClass());
 		return response.getBody();
@@ -97,18 +106,6 @@ public abstract class AbstractGdataOperations {
 		      resource, fileHeaders);
 		
 		ResponseEntity<T> response = restTemplate.exchange(url, POST, httpEntity, clazz);
-		return response.getBody();
-	}
-
-	protected <T> T updateEntity(String url, T entity) {
-		HttpHeaders headers = new HttpHeaders();
-		headers.setContentType(MediaType.APPLICATION_ATOM_XML);
-		
-		@SuppressWarnings("unchecked")
-		ResponseEntity<T> response = 
-				restTemplate.exchange(url, HttpMethod.PUT, 
-						new HttpEntity<T>(entity, headers), 
-						(Class<T>)entity.getClass());
 		return response.getBody();
 	}
 	

@@ -112,7 +112,7 @@ public class PicasawebTemplate extends AbstractGdataOperations implements Picasa
 			throw new IllegalArgumentException("Entity must have an ID");
 		}
 		
-		return this.updateEntity(album.getEditUrl(), album);
+		return this.saveEntity(album.getEditUrl(), album);
 	}
 
 	
