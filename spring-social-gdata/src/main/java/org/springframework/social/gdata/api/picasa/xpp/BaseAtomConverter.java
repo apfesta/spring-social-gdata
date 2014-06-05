@@ -14,6 +14,7 @@ import org.springframework.http.HttpOutputMessage;
 import org.springframework.http.MediaType;
 import org.springframework.social.gdata.api.picasa.BaseEntry;
 import org.springframework.social.gdata.api.picasa.BaseFeed;
+import org.springframework.social.gdata.api.picasa.Media;
 import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserException;
 import org.xmlpull.v1.XmlPullParserFactory;
@@ -91,6 +92,7 @@ public class BaseAtomConverter<F extends BaseFeed<E>, E extends BaseEntry> {
 			E entry=null;
 			Link link=null;
 			Category category=null;
+			Media mediaGroup=null;
 			String elementName=null;
 			String namespace=null;
 			
@@ -128,6 +130,14 @@ public class BaseAtomConverter<F extends BaseFeed<E>, E extends BaseEntry> {
 						category = new Category();
 						category.scheme = xpp.getAttributeValue(null,"scheme");
 						category.term = xpp.getAttributeValue(null,"term");
+					} else if (mediaGroup==null && 
+							xpp.getNamespace().equals(NS_MEDIA) && xpp.getName().equals("group")) {
+						mediaGroup = new Media();
+						if (entry!=null) {
+							entry.setMedia(mediaGroup);
+						}
+					} else if (mediaGroup!=null && xpp.getNamespace().equals(NS_MEDIA)) {
+						onMediaTag(xpp, mediaGroup, namespace, elementName, xpp.getText());
 					}
 				} else if (eventType == XmlPullParser.END_TAG) {
 					if (xpp.getName().equals("feed")) {
@@ -141,6 +151,9 @@ public class BaseAtomConverter<F extends BaseFeed<E>, E extends BaseEntry> {
 		        	}
 		        	if (xpp.getName().equals("category")) {
 		        		link = null;
+		        	}
+		        	if (xpp.getNamespace().equals(NS_MEDIA) && xpp.getName().equals("group")) {
+		        		mediaGroup = null;
 		        	}
 		        	elementName = null;
 		        	namespace = null;
@@ -175,11 +188,40 @@ public class BaseAtomConverter<F extends BaseFeed<E>, E extends BaseEntry> {
 			} else if (ns.equals(NS_GPHOTO)) {
 				if (ns.equals(NS_GPHOTO) && name.equals("id"))
 					entry.setGphotoId(value);
+			} else if (ns.equals(NS_MEDIA)) {
+				
 			}
 		}
 		
 		protected Date toDate(String string) {
 			return DateTime.parse(string).toDate();
+		}
+		
+		protected void onMediaTag(XmlPullParser xpp, Media mediaGroup, String ns, String name, String value) {
+			if (name.equals("content")) {
+				Media.Content content = mediaGroup.new Content();
+				mediaGroup.setContent(content);
+				content.setUrl(xpp.getAttributeValue(null, "url"));
+				content.setMedium(Media.Medium.fromValue(xpp.getAttributeValue(null, "medium")));
+				content.setType(xpp.getAttributeValue(null, "type"));
+				if (xpp.getAttributeValue(null, "height")!=null) {
+					content.setHeight(Integer.parseInt(xpp.getAttributeValue(null, "height")));
+				}
+				if (xpp.getAttributeValue(null, "width")!=null) {
+					content.setWidth(Integer.parseInt(xpp.getAttributeValue(null, "width")));
+				}
+			}
+			if (name.equals("thumbnail")) {
+				Media.Thumbnail thumbnail = mediaGroup.new Thumbnail();
+				mediaGroup.setThumbnail(thumbnail);
+				thumbnail.setUrl(xpp.getAttributeValue(null, "url"));
+				if (xpp.getAttributeValue(null, "height")!=null) {
+					thumbnail.setHeight(Integer.parseInt(xpp.getAttributeValue(null, "height")));
+				}
+				if (xpp.getAttributeValue(null, "width")!=null) {
+					thumbnail.setWidth(Integer.parseInt(xpp.getAttributeValue(null, "width")));
+				}
+			}
 		}
 		
 	}
@@ -317,7 +359,7 @@ public class BaseAtomConverter<F extends BaseFeed<E>, E extends BaseEntry> {
 			}
 			
 		}
-
+		
 	}
 	
 	interface Serializer<O> {

@@ -44,7 +44,10 @@ public class AlbumConverterTest {
 			System.out.println("Timestamp:"+result.getTimestamp());
 			System.out.println("Location:"+result.getLocation());
 			System.out.println("Access:"+result.getAccess());
-			System.out.println("Edit URL:"+result.getEditUrl());		
+			System.out.println("Edit URL:"+result.getEditUrl());	
+			System.out.println("Media URL:"+result.getMedia().getContent().getUrl());
+			System.out.println("Media Type:"+result.getMedia().getContent().getType());
+			System.out.println("Thumbnail URL:"+result.getMedia().getThumbnail().getUrl());
 		}
 	}
 	

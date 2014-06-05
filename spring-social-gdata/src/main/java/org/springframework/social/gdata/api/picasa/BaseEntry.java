@@ -12,6 +12,7 @@ public class BaseEntry extends ApiEntity {
 	private Date publishedDate;
 	private Date updatedDate;
 	private String editUrl;
+	private Media media;
 	
 	public String getGphotoId() {
 		return gphotoId;
@@ -48,6 +49,12 @@ public class BaseEntry extends ApiEntity {
 	}
 	public void setEditUrl(String editUrl) {
 		this.editUrl = editUrl;
+	}
+	public Media getMedia() {
+		return media;
+	}
+	public void setMedia(Media media) {
+		this.media = media;
 	}
 	
 }

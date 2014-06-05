@@ -43,7 +43,10 @@ public class PhotoConverterTest {
 			System.out.println("Height:"+result.getHeight());
 			System.out.println("Width:"+result.getWidth());
 			System.out.println("Size:"+result.getSize());
-			System.out.println("Edit URL:"+result.getEditUrl());		
+			System.out.println("Edit URL:"+result.getEditUrl());	
+			System.out.println("Media URL:"+result.getMedia().getContent().getUrl());
+			System.out.println("Media Type:"+result.getMedia().getContent().getType());
+			System.out.println("Thumbnail URL:"+result.getMedia().getThumbnail().getUrl());
 		}
 	}
 	
