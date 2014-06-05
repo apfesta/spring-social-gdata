@@ -8,7 +8,9 @@ import java.util.List;
 import org.springframework.core.io.Resource;
 import org.springframework.http.MediaType;
 import org.springframework.social.gdata.api.picasa.Album;
+import org.springframework.social.gdata.api.picasa.AlbumFeed;
 import org.springframework.social.gdata.api.picasa.Photo;
+import org.springframework.social.gdata.api.picasa.PhotoFeed;
 
 /**
  * @author apfesta
@@ -17,6 +19,10 @@ import org.springframework.social.gdata.api.picasa.Photo;
 public interface PicasawebOperations {
 		
 	//Albums
+	
+	public AlbumFeed getAlbumFeed(String userId);
+	
+	public AlbumFeed getMyAlbumFeed();
 	
 	public List<Album> getAlbums(String userId);
 	
@@ -29,6 +35,10 @@ public interface PicasawebOperations {
 	public Album updateAlbum(Album album);
 	
 	//Photos
+	
+	public PhotoFeed getPhotoFeed(String userId, String albumId);
+	
+	public PhotoFeed getMyPhotoFeed(String albumId);
 	
 	public List<Photo> getPhotos(String userId, String albumId);
 	

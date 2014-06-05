@@ -58,11 +58,11 @@ public class PicasawebTemplate extends AbstractGdataOperations implements Picasa
 				"?kind="+((kinds!=null) ? getKinds(kinds) : "album"), feedClass);
 	}
 	
-	protected AlbumFeed getAlbumFeed(String userId) {
+	protected AlbumFeed getAlbumFeedForUser(String userId) {
 		return getUserFeed(userId, new String[]{"album"}, AlbumFeed.class);
 	}
 	
-	protected PhotoFeed getPhotoFeed(String userId) {
+	protected PhotoFeed getPhotoFeedForUser(String userId) {
 		return getUserFeed(userId, new String[]{"photo"}, PhotoFeed.class);
 	}
 		
@@ -73,17 +73,27 @@ public class PicasawebTemplate extends AbstractGdataOperations implements Picasa
 	 * @param kind "photo" or "tag"
 	 * @return
 	 */
-	protected PhotoFeed getPhotoFeed(String userId, String albumId, String[] kinds) {
+	protected PhotoFeed getPhotoFeedForAlbum(String userId, String albumId, String[] kinds) {
 		return getEntity(BASE_URL + getProjection() + "/user/" + userId + "/albumid/" + albumId + 
 				"?kind="+((kinds!=null) ? getKinds(kinds) : "photo"), PhotoFeed.class);
 	}
 		
 		
 	//---ALBUMS
-	
+		
+	@Override
+	public AlbumFeed getAlbumFeed(String userId) {
+		return getAlbumFeedForUser(userId);
+	}
+
+	@Override
+	public AlbumFeed getMyAlbumFeed() {
+		return getAlbumFeedForUser(DEFAULT_USER_ID);
+	}
+
 	@Override
 	public List<Album> getAlbums(String userId) {
-		AlbumFeed feed = getAlbumFeed(userId);
+		AlbumFeed feed = getAlbumFeedForUser(userId);
 		return feed.getEntries();
 	}
 	
@@ -119,8 +129,18 @@ public class PicasawebTemplate extends AbstractGdataOperations implements Picasa
 	//---ALBUM BASED PHOTOS
 	
 	@Override
+	public PhotoFeed getPhotoFeed(String userId, String albumId) {
+		return getPhotoFeedForAlbum(userId, albumId, new String[]{"photo"});
+	}
+	
+	@Override
+	public PhotoFeed getMyPhotoFeed(String albumId) {
+		return getPhotoFeedForAlbum(DEFAULT_USER_ID, albumId, new String[]{"photo"});
+	}
+	
+	@Override
 	public List<Photo> getPhotos(String userId, String albumId) {
-		PhotoFeed feed = getPhotoFeed(userId, albumId, new String[]{"photo"});
+		PhotoFeed feed = getPhotoFeedForAlbum(userId, albumId, new String[]{"photo"});
 		return feed.getEntries();
 	}
 	
@@ -133,7 +153,7 @@ public class PicasawebTemplate extends AbstractGdataOperations implements Picasa
 	
 	@Override
 	public List<Photo> getPhotos(String userId) {
-		PhotoFeed feed = getPhotoFeed(userId);
+		PhotoFeed feed = getPhotoFeedForUser(userId);
 		return feed.getEntries();
 	}
 	

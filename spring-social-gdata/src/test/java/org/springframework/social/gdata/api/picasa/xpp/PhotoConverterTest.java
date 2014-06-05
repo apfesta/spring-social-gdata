@@ -31,6 +31,7 @@ public class PhotoConverterTest {
 				new MockHttpInputMessage(atomResource("albumfeed").getInputStream());
 		
 		PhotoFeed feed = converter.parseFeed(inputMessage);
+		System.out.println("Feed title:"+feed.getTitle());
 		for (Photo result: feed.getEntries()) {
 			System.out.println("Etag:"+result.getEtag());
 			System.out.println("URI:"+result.getId());

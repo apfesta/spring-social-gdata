@@ -33,6 +33,7 @@ public class AlbumConverterTest {
 				new MockHttpInputMessage(atomResource("userfeed").getInputStream());
 		
 		AlbumFeed feed = converter.parseFeed(inputMessage);
+		System.out.println("Feed title:"+feed.getTitle());
 		for (Album result: feed.getEntries()) {
 			System.out.println("Etag:"+result.getEtag());
 			System.out.println("URI:"+result.getId());

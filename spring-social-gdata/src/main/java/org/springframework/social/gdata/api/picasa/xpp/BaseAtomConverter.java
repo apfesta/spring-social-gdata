@@ -158,6 +158,9 @@ public class BaseAtomConverter<F extends BaseFeed<E>, E extends BaseEntry> {
 		        	elementName = null;
 		        	namespace = null;
 				} else if (eventType == XmlPullParser.TEXT) {
+					if (feed!=null && elementName!=null && entry==null) {
+		            	onFeedAttribute(feed, namespace, elementName, xpp.getText());
+		            }
 		            if (entry!=null && elementName!=null) {
 		            	onEntryAttribute(entry, namespace, elementName, xpp.getText());
 		            }
@@ -170,6 +173,13 @@ public class BaseAtomConverter<F extends BaseFeed<E>, E extends BaseEntry> {
 		protected void onEntryLink(E entry, Link link) {
 			if (link.rel.equals("edit")) {
 				entry.setEditUrl(link.href);
+			}
+		}
+		
+		protected void onFeedAttribute(F feed, String ns, String name, String value) {
+			if (ns.equals(NS)) {
+				if (name.equals("title"))
+					feed.setTitle(value);
 			}
 		}
 		
