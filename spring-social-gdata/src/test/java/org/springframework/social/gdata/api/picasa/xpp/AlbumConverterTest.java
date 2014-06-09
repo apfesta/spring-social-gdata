@@ -49,6 +49,7 @@ public class AlbumConverterTest {
 			System.out.println("Media URL:"+result.getMedia().getContent().getUrl());
 			System.out.println("Media Type:"+result.getMedia().getContent().getType());
 			System.out.println("Thumbnail URL:"+result.getMedia().getThumbnail().getUrl());
+			System.out.println("Media Credit:"+result.getMedia().getCredit());
 		}
 	}
 	

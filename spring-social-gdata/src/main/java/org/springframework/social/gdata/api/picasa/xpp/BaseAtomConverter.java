@@ -164,6 +164,9 @@ public class BaseAtomConverter<F extends BaseFeed<E>, E extends BaseEntry> {
 		            if (entry!=null && elementName!=null) {
 		            	onEntryAttribute(entry, namespace, elementName, xpp.getText());
 		            }
+		            if (mediaGroup!=null && elementName!=null) {
+		            	onMediaAttribute(mediaGroup, namespace, elementName, xpp.getText());
+		            }
 				}
 				eventType = xpp.next();
 			}
@@ -198,9 +201,7 @@ public class BaseAtomConverter<F extends BaseFeed<E>, E extends BaseEntry> {
 			} else if (ns.equals(NS_GPHOTO)) {
 				if (ns.equals(NS_GPHOTO) && name.equals("id"))
 					entry.setGphotoId(value);
-			} else if (ns.equals(NS_MEDIA)) {
-				
-			}
+			} 
 		}
 		
 		protected Date toDate(String string) {
@@ -234,6 +235,14 @@ public class BaseAtomConverter<F extends BaseFeed<E>, E extends BaseEntry> {
 			}
 		}
 		
+		
+		protected void onMediaAttribute(Media mediaGroup, String ns, String name, String value) {
+			if (ns.equals(NS_MEDIA)) {
+				if (name.equals("credit")) {
+					mediaGroup.setCredit(value);
+				}
+			}
+		}
 	}
 	
 	public class BaseAtomSerializer {

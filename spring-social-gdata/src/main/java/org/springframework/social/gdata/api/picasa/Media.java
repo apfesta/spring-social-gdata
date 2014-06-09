@@ -4,6 +4,7 @@ public class Media {
 	String title;
 	Content content;
 	Thumbnail thumbnail;
+	String credit;
 	
 	public class Content {
 		String url;
@@ -108,6 +109,22 @@ public class Media {
 
 	public void setThumbnail(Thumbnail thumbnail) {
 		this.thumbnail = thumbnail;
+	}
+
+	public String getTitle() {
+		return title;
+	}
+
+	public void setTitle(String title) {
+		this.title = title;
+	}
+
+	public String getCredit() {
+		return credit;
+	}
+
+	public void setCredit(String credit) {
+		this.credit = credit;
 	}
 	
 	
