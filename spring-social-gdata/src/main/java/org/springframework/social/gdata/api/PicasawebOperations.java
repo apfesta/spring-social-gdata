@@ -53,16 +53,16 @@ public interface PicasawebOperations {
 	 * 
 	 * @param userId
 	 * @param albumId
-	 * @param photo metadata
+	 * @param metadata information about the photo such as title and summary
 	 * @param resource resource containing photo
 	 * @param resourceType MIME photo type
 	 * @return
 	 */
-	public Photo addPhoto(String userId, String albumId, Photo photo, Resource resource, MediaType resourceType);
+	public Photo addPhoto(String userId, String albumId, Photo metadata, Resource resource, MediaType resourceType);
 	
-	public Photo addPhoto(String albumId, Photo photo, Resource resource, MediaType resourceType);
+	public Photo addPhoto(String albumId, Photo metadata, Resource resource, MediaType resourceType);
 	
-	public Photo addPhoto(Photo photo, Resource resource, MediaType resourceType);
+	public Photo addPhoto(Photo metadata, Resource resource, MediaType resourceType);
 	
 	/**
 	 * Posts a photo without meta data
