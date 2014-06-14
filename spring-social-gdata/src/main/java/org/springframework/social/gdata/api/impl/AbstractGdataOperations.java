@@ -102,6 +102,9 @@ public abstract class AbstractGdataOperations {
 	protected <T> T upload(String url, Resource resource, MediaType resourceType, Class<T> clazz) {
 		HttpHeaders fileHeaders = new HttpHeaders();
 		fileHeaders.setContentType(resourceType);
+		if (resource.getFilename()!=null) {
+			fileHeaders.add("Slug", resource.getFilename());
+		}
 		HttpEntity<Resource> httpEntity = new HttpEntity<Resource>(
 		      resource, fileHeaders);
 		
