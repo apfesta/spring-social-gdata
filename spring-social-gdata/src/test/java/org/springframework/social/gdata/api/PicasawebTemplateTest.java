@@ -93,6 +93,27 @@ public class PicasawebTemplateTest extends AbstractGdataTest {
 		assertEquals("Real cat wants attention too.", photo.getSummary());
 	}
 	
+	@Test
+	public void addVideosByUserIdAlbumId() throws IOException, URISyntaxException {		
+		mockServer
+		.expect(requestTo("https://picasaweb.google.com/data/feed/api/user/12345/albumid/54321"))
+		.andExpect(method(POST))
+		.andExpect(content().contentType("multipart/related;boundary=END_OF_PART"))
+		.andRespond(withSuccess(atomResource("createvideo"), APPLICATION_ATOM_XML));
+		
+		Photo photo = new Photo();
+		photo.setTitle("plz-to-love-realcat.mp4");
+		photo.setSummary("Real cat wants attention too.");
+		
+		Resource resource = new ByteArrayResource("test content".getBytes());		
+				
+		photo = gdata.picasawebOperations().addPhoto("12345", "54321", photo, 
+				resource, MediaType.parseMediaType("video/mp4"));
+				
+		assertEquals("plz-to-love-realcat.mp4", photo.getTitle());
+		assertEquals("Real cat wants attention too.", photo.getSummary());
+	}
+	
 	private void assertAlbums(List<Album> albums) {
 		assertNotNull(albums);
 		Album album = albums.get(0);
