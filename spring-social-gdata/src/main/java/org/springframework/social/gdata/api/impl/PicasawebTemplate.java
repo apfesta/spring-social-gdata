@@ -22,9 +22,10 @@ public class PicasawebTemplate extends AbstractGdataOperations implements Picasa
 	
 	boolean isAuthorized;
 
-	public PicasawebTemplate(RestTemplate restTemplate,
+	public PicasawebTemplate(RestTemplate restTemplate, 
+			ChunkedRestTemplate chunkedRestTemplate,
 			boolean isAuthorized) {
-		super(restTemplate, isAuthorized);
+		super(restTemplate, chunkedRestTemplate, isAuthorized);
 		this.isAuthorized = isAuthorized;
 	}
 	

@@ -26,11 +26,14 @@ import org.springframework.web.client.RestTemplate;
 public abstract class AbstractGdataOperations {
 	
 	protected final RestTemplate restTemplate;
+	protected final ChunkedRestTemplate chunkedRestTemplate;
 	private final boolean isAuthorized;
 	
-	public AbstractGdataOperations(RestTemplate restTemplate, boolean isAuthorized) {
+	public AbstractGdataOperations(RestTemplate restTemplate, 
+			ChunkedRestTemplate chunkedRestTemplate, boolean isAuthorized) {
 		super();
 		this.restTemplate = restTemplate;
+		this.chunkedRestTemplate = chunkedRestTemplate;
 		this.isAuthorized = isAuthorized;
 	}
 
@@ -87,20 +90,21 @@ public abstract class AbstractGdataOperations {
 		parts.add("file", sample_file);
 		 
 		//Full Multi-part request
-		HttpHeaders headers = new HttpHeaders();
+		HttpHeaders headers = chunkedRestTemplate.httpHeaders();
 		headers.setContentType(MediaType.parseMediaType("multipart/related"));
 		//headers.add("Content-type", "multipart/related");
 		HttpEntity<MultiValueMap<String, HttpEntity<?>>> ereq = 
 				new HttpEntity<MultiValueMap<String, HttpEntity<?>>>(
 		                parts, headers);
 				
-		ResponseEntity<T> response = restTemplate.exchange(url, POST, ereq, clazz);
+		ResponseEntity<T> response = chunkedRestTemplate.restTemplate().
+				exchange(url, POST, ereq, clazz);
 		return response.getBody();
 
 	}
 	
 	protected <T> T upload(String url, Resource resource, MediaType resourceType, Class<T> clazz) {
-		HttpHeaders fileHeaders = new HttpHeaders();
+		HttpHeaders fileHeaders = chunkedRestTemplate.httpHeaders();
 		fileHeaders.setContentType(resourceType);
 		if (resource.getFilename()!=null) {
 			fileHeaders.add("Slug", resource.getFilename());
@@ -108,7 +112,8 @@ public abstract class AbstractGdataOperations {
 		HttpEntity<Resource> httpEntity = new HttpEntity<Resource>(
 		      resource, fileHeaders);
 		
-		ResponseEntity<T> response = restTemplate.exchange(url, POST, httpEntity, clazz);
+		ResponseEntity<T> response = chunkedRestTemplate.restTemplate().
+				exchange(url, POST, httpEntity, clazz);
 		return response.getBody();
 	}
 	

@@ -28,7 +28,7 @@ import com.google.gdata.util.ServiceException;
 public class SpreadsheetTemplate extends AbstractGdataOperations implements SpreadsheetOperations {
 
 	public SpreadsheetTemplate(RestTemplate restTemplate, boolean isAuthorized) {
-		super(restTemplate, isAuthorized);
+		super(restTemplate, null, isAuthorized);
 		// TODO Auto-generated constructor stub
 	}
 
