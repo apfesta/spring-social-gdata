@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.core.io.Resource;
 import org.springframework.http.MediaType;
 import org.springframework.social.gdata.api.PicasawebOperations;
+import org.springframework.social.gdata.api.PicasawebOperations.QueryParameters;
 import org.springframework.social.gdata.api.picasa.Album;
 import org.springframework.social.gdata.api.picasa.AlbumFeed;
 import org.springframework.social.gdata.api.picasa.BaseFeed;
@@ -33,20 +34,18 @@ public class PicasawebTemplate extends AbstractGdataOperations implements Picasa
 		return (isAuthorized)?"api":"base";
 	}
 	
-	private String getKinds(String[] kinds) {
-		StringBuffer buffer = new StringBuffer();
-		for (int i=0; i<kinds.length; i++) {
-			buffer.append(kinds[i]);
-			if (i+1<kinds.length) {
-				buffer.append(",");
-			}
-		}
-		return buffer.toString();
-	}
-	
 //	protected Feed getFeed(String url) {
 //		return this.getEntity(url, Feed.class);
 //	}
+	
+	protected String createQueryString(QueryParameters params, String defaultKind) {
+		StringBuffer queryString = new StringBuffer();
+		queryString.append("?kind="+((params.getKinds()!=null) ? params.getKindsAsString() : defaultKind));
+		if (params.getImageSizeMax()>0) {
+			queryString.append("&imgmax=" + params.getImgmax());
+		}
+		return queryString.toString();
+	}
 		
 	/**
 	 * 
@@ -54,17 +53,25 @@ public class PicasawebTemplate extends AbstractGdataOperations implements Picasa
 	 * @param kind "album", or "tag", or "photo" or "comment"
 	 * @return
 	 */
-	protected <F extends BaseFeed<?>> F getUserFeed(String userId, String[] kinds, Class<F> feedClass) {
+	protected <F extends BaseFeed<?>> F getUserFeed(String userId, QueryParameters params, Class<F> feedClass) {
 		return getEntity(BASE_URL + getProjection() + "/user/" + userId + 
-				"?kind="+((kinds!=null) ? getKinds(kinds) : "album"), feedClass);
+				createQueryString(params, "album"), feedClass);
+	}
+	
+	protected AlbumFeed getAlbumFeedForUser(String userId, QueryParameters params) {
+		return getUserFeed(userId, params, AlbumFeed.class);
 	}
 	
 	protected AlbumFeed getAlbumFeedForUser(String userId) {
-		return getUserFeed(userId, new String[]{"album"}, AlbumFeed.class);
+		QueryParameters params = new QueryParameters();
+		params.setKind("album");
+		return getUserFeed(userId, params, AlbumFeed.class);
 	}
 	
 	protected PhotoFeed getPhotoFeedForUser(String userId) {
-		return getUserFeed(userId, new String[]{"photo"}, PhotoFeed.class);
+		QueryParameters params = new QueryParameters();
+		params.setKind("photo");
+		return getUserFeed(userId, params, PhotoFeed.class);
 	}
 		
 	/**
@@ -74,17 +81,27 @@ public class PicasawebTemplate extends AbstractGdataOperations implements Picasa
 	 * @param kind "photo" or "tag"
 	 * @return
 	 */
-	protected PhotoFeed getPhotoFeedForAlbum(String userId, String albumId, String[] kinds) {
+	protected PhotoFeed getPhotoFeedForAlbum(String userId, String albumId, QueryParameters params) {
 		return getEntity(BASE_URL + getProjection() + "/user/" + userId + "/albumid/" + albumId + 
-				"?kind="+((kinds!=null) ? getKinds(kinds) : "photo"), PhotoFeed.class);
+				createQueryString(params, "photo"), PhotoFeed.class);
 	}
 		
 		
 	//---ALBUMS
 		
 	@Override
+	public AlbumFeed getAlbumFeed(String userId, QueryParameters params) {
+		return getAlbumFeedForUser(userId, params);
+	}
+
+	@Override
 	public AlbumFeed getAlbumFeed(String userId) {
 		return getAlbumFeedForUser(userId);
+	}
+
+	@Override
+	public AlbumFeed getMyAlbumFeed(QueryParameters params) {
+		return getAlbumFeedForUser(DEFAULT_USER_ID, params);
 	}
 
 	@Override
@@ -130,18 +147,40 @@ public class PicasawebTemplate extends AbstractGdataOperations implements Picasa
 	//---ALBUM BASED PHOTOS
 	
 	@Override
-	public PhotoFeed getPhotoFeed(String userId, String albumId) {
-		return getPhotoFeedForAlbum(userId, albumId, new String[]{"photo"});
+	public PhotoFeed getPhotoFeed(String userId, String albumId,
+			QueryParameters params) {
+		return getPhotoFeedForAlbum(userId, albumId, params);
 	}
 	
+	@Override
+	public PhotoFeed getPhotoFeed(String userId, String albumId) {
+		QueryParameters params = new QueryParameters();
+		params.setKind("photo");
+		return getPhotoFeedForAlbum(userId, albumId, params);
+	}
+
+	@Override
+	public PhotoFeed getMyPhotoFeed(String albumId, QueryParameters params) {
+		return getPhotoFeedForAlbum(DEFAULT_USER_ID, albumId, params);
+	}
+
 	@Override
 	public PhotoFeed getMyPhotoFeed(String albumId) {
-		return getPhotoFeedForAlbum(DEFAULT_USER_ID, albumId, new String[]{"photo"});
+		QueryParameters params = new QueryParameters();
+		params.setKind("photo");
+		return getPhotoFeedForAlbum(DEFAULT_USER_ID, albumId, params);
 	}
 	
 	@Override
+	public PhotoFeed getMyPhotoFeed(QueryParameters params) {
+		return getPhotoFeedForAlbum(DEFAULT_USER_ID, DEFAULT_ALBUM_ID, params);
+	}
+
+	@Override
 	public List<Photo> getPhotos(String userId, String albumId) {
-		PhotoFeed feed = getPhotoFeedForAlbum(userId, albumId, new String[]{"photo"});
+		QueryParameters params = new QueryParameters();
+		params.setKind("photo");
+		PhotoFeed feed = getPhotoFeedForAlbum(userId, albumId, params);
 		return feed.getEntries();
 	}
 	

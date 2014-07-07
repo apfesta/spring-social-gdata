@@ -20,7 +20,11 @@ public interface PicasawebOperations {
 		
 	//Albums
 	
+	public AlbumFeed getAlbumFeed(String userId, QueryParameters params);
+	
 	public AlbumFeed getAlbumFeed(String userId);
+	
+	public AlbumFeed getMyAlbumFeed(QueryParameters params);
 	
 	public AlbumFeed getMyAlbumFeed();
 	
@@ -35,10 +39,15 @@ public interface PicasawebOperations {
 	public Album updateAlbum(Album album);
 	
 	//Photos
+	public PhotoFeed getPhotoFeed(String userId, String albumId, QueryParameters params);
 	
 	public PhotoFeed getPhotoFeed(String userId, String albumId);
 	
+	public PhotoFeed getMyPhotoFeed(String albumId, QueryParameters params);
+	
 	public PhotoFeed getMyPhotoFeed(String albumId);
+	
+	public PhotoFeed getMyPhotoFeed(QueryParameters params);
 	
 	public List<Photo> getPhotos(String userId, String albumId);
 	
@@ -79,4 +88,50 @@ public interface PicasawebOperations {
 	
 	public Photo addPhoto(Resource resource, MediaType resourceType);
 		
+	public class QueryParameters {
+
+		private int imageSizeMax;
+		private boolean imageSizeCropped;
+		private String[] kinds;
+		
+		public String[] getKinds() {
+			return kinds;
+		}
+		public void setKinds(String[] kinds) {
+			this.kinds = kinds;
+		}
+		public void setKind(String kind) {
+			this.kinds = new String[]{kind};
+		}
+		public int getImageSizeMax() {
+			return imageSizeMax;
+		}
+		public void setImageSizeMax(int imageSizeMax) {
+			this.imageSizeMax = imageSizeMax;
+		}
+		public boolean isImageSizeCropped() {
+			return imageSizeCropped;
+		}
+		public void setImageSizeCropped(boolean imageSizeCropped) {
+			this.imageSizeCropped = imageSizeCropped;
+		}
+		public String getImgmax() {
+			if (imageSizeMax>0) {
+				return imageSizeMax + (imageSizeCropped ? "c":"u");
+			}
+			return null;
+		}
+		public String getKindsAsString() {
+			StringBuffer buffer = new StringBuffer();
+			for (int i=0; i<kinds.length; i++) {
+				buffer.append(kinds[i]);
+				if (i+1<kinds.length) {
+					buffer.append(",");
+				}
+			}
+			return buffer.toString();
+		}
+		
+		
+	}
 }
