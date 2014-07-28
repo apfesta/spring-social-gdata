@@ -15,7 +15,7 @@
 	</properties>
 
 	<scm>
-		<connection>scm:git:ssh://github.com/apfesta/spring-social-gdata.git</connection>
+		<connection>scm:git:ssh://git@github.com/apfesta/spring-social-gdata.git</connection>
 		<developerConnection>scm:git:ssh://git@github.com/apfesta/spring-social-gdata.git</developerConnection>
 		<url>https://github.com/apfesta/spring-social-gdata</url>
 	</scm>
