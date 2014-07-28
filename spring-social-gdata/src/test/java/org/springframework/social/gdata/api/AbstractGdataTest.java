@@ -22,6 +22,8 @@ public class AbstractGdataTest {
 	
 	protected MockRestServiceServer appAuthMockServer;
 	
+	protected MockRestServiceServer chunkedMockServer;
+	
 	private static DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSSSS'Z'");
 	static {
 		dateFormat.setTimeZone(TimeZone.getTimeZone("UTC"));
@@ -33,6 +35,8 @@ public class AbstractGdataTest {
 		mockServer = MockRestServiceServer.createServer(gdata.getRestTemplate());
 		appAuthGdata = new GdataTemplate("APP_ACCESS_TOKEN");
 		appAuthMockServer = MockRestServiceServer.createServer(appAuthGdata.getRestTemplate());
+		
+		chunkedMockServer = MockRestServiceServer.createServer(gdata.getChunkedRestTemplate().restTemplate());
 	}
 	
 	protected Resource atomResource(String filename) {

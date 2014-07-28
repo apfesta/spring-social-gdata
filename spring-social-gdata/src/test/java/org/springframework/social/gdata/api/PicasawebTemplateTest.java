@@ -75,7 +75,7 @@ public class PicasawebTemplateTest extends AbstractGdataTest {
 	
 	@Test
 	public void addPhotosByUserIdAlbumId() throws IOException, URISyntaxException {		
-		mockServer
+		chunkedMockServer
 		.expect(requestTo("https://picasaweb.google.com/data/feed/api/user/12345/albumid/54321"))
 		.andExpect(method(POST))
 		.andRespond(withSuccess(atomResource("createphoto"), APPLICATION_ATOM_XML));
@@ -95,7 +95,7 @@ public class PicasawebTemplateTest extends AbstractGdataTest {
 	
 	@Test
 	public void addVideosByUserIdAlbumId() throws IOException, URISyntaxException {		
-		mockServer
+		chunkedMockServer
 		.expect(requestTo("https://picasaweb.google.com/data/feed/api/user/12345/albumid/54321"))
 		.andExpect(method(POST))
 		.andExpect(content().contentType("multipart/related;boundary=END_OF_PART"))

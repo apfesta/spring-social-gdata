@@ -94,6 +94,10 @@ public class GdataTemplate extends AbstractOAuth2ApiBinding implements Gdata {
 		client.addHeader("GData-Version", "2");
 		return client;
 	}
+
+	public ChunkedRestTemplate getChunkedRestTemplate() {
+		return chunkedRestTemplate;
+	}
 	
 //	class GDataVersionRequestInterceptor implements ClientHttpRequestInterceptor {
 //
