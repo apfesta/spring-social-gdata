@@ -31,6 +31,10 @@
 			<name>Snapshot Repository</name>
 			<url>http://ubuntu-cm:8081/nexus/content/repositories/snapshots</url>
 		</snapshotRepository>
+		<site> 
+            <id>site-distribution</id> 
+            <url>file:target/all-site</url> 
+      </site>
 	</distributionManagement>
 
 
