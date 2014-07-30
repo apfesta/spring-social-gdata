@@ -1,8 +1,12 @@
 package org.springframework.http.converter;
 
+import static org.junit.Assert.assertNotNull;
+
 import java.io.File;
 import java.io.IOException;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.junit.Ignore;
 import org.junit.Test;
 import org.springframework.core.io.FileSystemResource;
@@ -18,6 +22,9 @@ import org.springframework.util.MultiValueMap;
 
 public class MultipartRelatedHttpMessageConverterTest {
 
+	private static Log LOG = LogFactory.getLog(MultipartRelatedHttpMessageConverterTest.class);
+	
+	@Ignore
 	@Test
 	public void test() {
 		
@@ -43,8 +50,9 @@ public class MultipartRelatedHttpMessageConverterTest {
 			e.printStackTrace();
 		}
 		
-		System.out.println(outputMessage.getHeaders());
-		System.out.println(outputMessage.getBodyAsString());
+		LOG.debug(outputMessage.getHeaders());
+		assertNotNull(outputMessage.getBodyAsString());
+		LOG.debug(outputMessage.getBodyAsString());
 		
 	}
 	
