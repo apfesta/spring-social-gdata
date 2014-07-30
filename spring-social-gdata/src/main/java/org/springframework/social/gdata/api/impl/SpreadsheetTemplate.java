@@ -3,21 +3,14 @@
  */
 package org.springframework.social.gdata.api.impl;
 
-import java.io.IOException;
-import java.net.MalformedURLException;
-import java.net.URL;
 import java.util.List;
 
 import org.springframework.social.gdata.api.SpreadsheetOperations;
 import org.springframework.web.client.RestTemplate;
 
 import com.google.gdata.client.spreadsheet.SpreadsheetService;
-import com.google.gdata.data.IFeed;
 import com.google.gdata.data.spreadsheet.CellEntry;
-import com.google.gdata.data.spreadsheet.CellFeed;
 import com.google.gdata.data.spreadsheet.SpreadsheetEntry;
-import com.google.gdata.data.spreadsheet.SpreadsheetFeed;
-import com.google.gdata.util.ServiceException;
 
 /**
  * {@link SpreadsheetOperations} implementation

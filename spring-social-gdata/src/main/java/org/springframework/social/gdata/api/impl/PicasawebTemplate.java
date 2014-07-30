@@ -5,7 +5,6 @@ import java.util.List;
 import org.springframework.core.io.Resource;
 import org.springframework.http.MediaType;
 import org.springframework.social.gdata.api.PicasawebOperations;
-import org.springframework.social.gdata.api.PicasawebOperations.QueryParameters;
 import org.springframework.social.gdata.api.picasa.Album;
 import org.springframework.social.gdata.api.picasa.AlbumFeed;
 import org.springframework.social.gdata.api.picasa.BaseFeed;
