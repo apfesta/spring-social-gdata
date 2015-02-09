@@ -3,6 +3,7 @@ package org.springframework.social.gdata.api.picasa.xpp;
 import java.io.IOException;
 import java.util.Date;
 
+import org.springframework.social.gdata.api.picasa.AlbumFeed;
 import org.springframework.social.gdata.api.picasa.Photo;
 import org.springframework.social.gdata.api.picasa.PhotoFeed;
 import org.xmlpull.v1.XmlSerializer;
@@ -27,6 +28,18 @@ public class PhotoConverter extends BaseAtomConverter<PhotoFeed, Photo> {
 			return new Photo();
 		}
 		
+		
+		
+		@Override
+		protected void onFeedAttribute(PhotoFeed feed, String ns, String name,
+				String value) {
+			super.onFeedAttribute(feed, ns, name, value);
+			if (ns.equals(NS_GPHOTO)) {
+				if (name.equals("user")) feed.setGphotoUser(value);
+				else if (name.equals("nickname")) feed.setGphotoNickname(value);
+			}
+		}
+
 		@Override
 		protected void onEntryAttribute(Photo entry, String namespace, String name, String value) {
 			super.onEntryAttribute(entry, namespace, name, value);

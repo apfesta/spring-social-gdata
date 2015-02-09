@@ -32,6 +32,8 @@ public class PhotoConverterTest {
 		
 		PhotoFeed feed = converter.parseFeed(inputMessage);
 		System.out.println("Feed title:"+feed.getTitle());
+		System.out.println("Feed user:"+feed.getGphotoUser());
+		System.out.println("Feed nickname:"+feed.getGphotoNickname());
 		for (Photo result: feed.getEntries()) {
 			System.out.println("Etag:"+result.getEtag());
 			System.out.println("URI:"+result.getId());

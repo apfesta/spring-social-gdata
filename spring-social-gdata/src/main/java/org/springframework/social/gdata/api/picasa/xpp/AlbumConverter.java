@@ -29,6 +29,17 @@ public class AlbumConverter extends BaseAtomConverter<AlbumFeed, Album> {
 		}
 		
 		@Override
+		protected void onFeedAttribute(AlbumFeed feed, String ns, String name,
+				String value) {
+			super.onFeedAttribute(feed, ns, name, value);
+			if (ns.equals(NS_GPHOTO)) {
+				if (name.equals("user")) feed.setGphotoUser(value);
+				else if (name.equals("nickname")) feed.setGphotoNickname(value);
+				else if (name.equals("thumbnail")) feed.setGphotoThumbnail(value!=null?value.trim():value);
+			}
+		}
+
+		@Override
 		protected void onEntryAttribute(Album entry, String namespace, String name, String value) {
 			super.onEntryAttribute(entry, namespace, name, value);
 			if (namespace.equals(NS_GPHOTO)) {

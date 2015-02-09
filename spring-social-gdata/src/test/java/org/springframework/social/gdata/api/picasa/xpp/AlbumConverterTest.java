@@ -34,6 +34,9 @@ public class AlbumConverterTest {
 		
 		AlbumFeed feed = converter.parseFeed(inputMessage);
 		System.out.println("Feed title:"+feed.getTitle());
+		System.out.println("Feed user:"+feed.getGphotoUser());
+		System.out.println("Feed nickname:"+feed.getGphotoNickname());
+		System.out.println("Feed thumbnail:"+feed.getGphotoThumbnail());
 		for (Album result: feed.getEntries()) {
 			System.out.println("Etag:"+result.getEtag());
 			System.out.println("URI:"+result.getId());
