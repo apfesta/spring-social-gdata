@@ -37,7 +37,11 @@ public class AlbumConverterTest {
 		System.out.println("Feed user:"+feed.getGphotoUser());
 		System.out.println("Feed nickname:"+feed.getGphotoNickname());
 		System.out.println("Feed thumbnail:"+feed.getGphotoThumbnail());
+		System.out.println("Feed Author Name:"+feed.getAuthor().getName());
+		System.out.println("Feed Author URI:"+feed.getAuthor().getUri());
 		for (Album result: feed.getEntries()) {
+			System.out.println("Author Name:"+result.getAuthor().getName());
+			System.out.println("Author URI:"+result.getAuthor().getUri());
 			System.out.println("Etag:"+result.getEtag());
 			System.out.println("URI:"+result.getId());
 			System.out.println("Album ID:"+result.getGphotoId());

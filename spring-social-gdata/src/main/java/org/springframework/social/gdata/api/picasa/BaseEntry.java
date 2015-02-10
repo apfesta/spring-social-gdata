@@ -3,6 +3,7 @@ package org.springframework.social.gdata.api.picasa;
 import java.util.Date;
 
 import org.springframework.social.gdata.api.ApiEntity;
+import org.springframework.social.gdata.api.picasa.xpp.Author;
 
 public class BaseEntry extends ApiEntity {
 	
@@ -12,6 +13,7 @@ public class BaseEntry extends ApiEntity {
 	private Date publishedDate;
 	private Date updatedDate;
 	private String editUrl;
+	private Author author;
 	private Media media;
 	
 	public String getGphotoId() {
@@ -49,6 +51,12 @@ public class BaseEntry extends ApiEntity {
 	}
 	public void setEditUrl(String editUrl) {
 		this.editUrl = editUrl;
+	}
+	public Author getAuthor() {
+		return author;
+	}
+	public void setAuthor(Author author) {
+		this.author = author;
 	}
 	public Media getMedia() {
 		return media;

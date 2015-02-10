@@ -92,6 +92,7 @@ public class BaseAtomConverter<F extends BaseFeed<E>, E extends BaseEntry> {
 			E entry=null;
 			Link link=null;
 			Category category=null;
+			Author author=null;
 			Media mediaGroup=null;
 			String elementName=null;
 			String namespace=null;
@@ -130,6 +131,13 @@ public class BaseAtomConverter<F extends BaseFeed<E>, E extends BaseEntry> {
 						category = new Category();
 						category.scheme = xpp.getAttributeValue(null,"scheme");
 						category.term = xpp.getAttributeValue(null,"term");
+					} else if (author==null && xpp.getName().equals("author")) {
+						author = new Author();
+						if (entry!=null) {
+							entry.setAuthor(author);
+						} else if (feed!=null) {
+							feed.setAuthor(author);
+						}			
 					} else if (mediaGroup==null && 
 							xpp.getNamespace().equals(NS_MEDIA) && xpp.getName().equals("group")) {
 						mediaGroup = new Media();
@@ -142,6 +150,9 @@ public class BaseAtomConverter<F extends BaseFeed<E>, E extends BaseEntry> {
 				} else if (eventType == XmlPullParser.END_TAG) {
 					if (xpp.getName().equals("feed")) {
 		        		feed = null;
+		        	}
+					if (xpp.getName().equals("author")) {
+		        		author = null;
 		        	}
 		        	if (xpp.getName().equals("entry")) {
 		        		entry = null;
@@ -166,6 +177,9 @@ public class BaseAtomConverter<F extends BaseFeed<E>, E extends BaseEntry> {
 		            }
 		            if (mediaGroup!=null && elementName!=null) {
 		            	onMediaAttribute(mediaGroup, namespace, elementName, xpp.getText());
+		            }
+		            if (author!=null && elementName!=null) {
+		            	onAuthorAttribute(author, namespace, elementName, xpp.getText());
 		            }
 				}
 				eventType = xpp.next();
@@ -202,6 +216,14 @@ public class BaseAtomConverter<F extends BaseFeed<E>, E extends BaseEntry> {
 				if (ns.equals(NS_GPHOTO) && name.equals("id"))
 					entry.setGphotoId(value);
 			} 
+		}
+		
+		protected void onAuthorAttribute(Author author, String ns, String name, String value) {
+			if (ns.equals(NS)) {
+				if (name.equals("name")) author.setName(value);
+				else if (name.equals("uri")) author.setUri(value);
+			}
+			
 		}
 		
 		protected Date toDate(String string) {

@@ -34,7 +34,11 @@ public class PhotoConverterTest {
 		System.out.println("Feed title:"+feed.getTitle());
 		System.out.println("Feed user:"+feed.getGphotoUser());
 		System.out.println("Feed nickname:"+feed.getGphotoNickname());
+		System.out.println("Feed Author Name:"+feed.getAuthor().getName());
+		System.out.println("Feed Author URI:"+feed.getAuthor().getUri());
 		for (Photo result: feed.getEntries()) {
+			System.out.println("Author Name:"+result.getAuthor().getName());
+			System.out.println("Author URI:"+result.getAuthor().getUri());
 			System.out.println("Etag:"+result.getEtag());
 			System.out.println("URI:"+result.getId());
 			System.out.println("Photo ID:"+result.getGphotoId());

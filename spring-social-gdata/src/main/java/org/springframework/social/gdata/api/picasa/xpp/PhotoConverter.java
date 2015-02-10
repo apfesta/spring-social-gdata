@@ -3,7 +3,6 @@ package org.springframework.social.gdata.api.picasa.xpp;
 import java.io.IOException;
 import java.util.Date;
 
-import org.springframework.social.gdata.api.picasa.AlbumFeed;
 import org.springframework.social.gdata.api.picasa.Photo;
 import org.springframework.social.gdata.api.picasa.PhotoFeed;
 import org.xmlpull.v1.XmlSerializer;
