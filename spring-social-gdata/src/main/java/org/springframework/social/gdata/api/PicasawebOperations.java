@@ -38,6 +38,21 @@ public interface PicasawebOperations {
 	
 	public Album updateAlbum(Album album);
 	
+	/**
+	 * Deletes an album 
+	 * @param album
+	 */
+	public void deleteAlbum(Album album);
+		
+	/**
+	 * Deletes an album when you already know the user, and 
+	 * album
+	 * 
+	 * @param userId
+	 * @param albumId
+	 */
+	public void deleteAlbum(String userId, String albumId);
+	
 	//Photos
 	public PhotoFeed getPhotoFeed(String userId, String albumId, QueryParameters params);
 	
@@ -88,6 +103,23 @@ public interface PicasawebOperations {
 	
 	public Photo addPhoto(Resource resource, MediaType resourceType);
 		
+	/**
+	 * Deletes a photo and its meta data
+	 * 
+	 * @param photo
+	 */
+	public void deletePhoto(Photo photo);
+	
+	/**
+	 * Deletes a photo and its meta data when you already know the user, album
+	 * and photo id.
+	 * 
+	 * @param userId
+	 * @param albumId
+	 * @param photoId
+	 */
+	public void deletePhoto(String userId, String albumId, String photoId);
+	
 	public class QueryParameters {
 
 		private int imageSizeMax;

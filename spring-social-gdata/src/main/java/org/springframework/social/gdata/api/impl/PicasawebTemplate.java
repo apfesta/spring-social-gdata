@@ -16,6 +16,7 @@ import org.springframework.web.client.RestTemplate;
 public class PicasawebTemplate extends AbstractGdataOperations implements PicasawebOperations {
 	
 	private static final String BASE_URL = "https://picasaweb.google.com/data/feed/";
+	private static final String BASE_ENTRY_URL = "https://picasaweb.google.com/data/entry/";
 	
 	private static final String DEFAULT_USER_ID = "default";
 	private static final String DEFAULT_ALBUM_ID = "default";
@@ -141,6 +142,18 @@ public class PicasawebTemplate extends AbstractGdataOperations implements Picasa
 		
 		return this.saveEntity(album.getEditUrl(), album);
 	}
+	
+	@Override
+	public void deleteAlbum(Album album) {
+		this.requireAuthorization();
+		
+		this.deleteEntity(album.getEditUrl(), album);
+	}
+
+	@Override
+	public void deleteAlbum(String userId, String albumId) {
+		restTemplate.delete(BASE_ENTRY_URL + getProjection() +  "/user/" + userId + "/albumid/" + albumId);
+	}
 
 	
 	//---ALBUM BASED PHOTOS
@@ -240,4 +253,17 @@ public class PicasawebTemplate extends AbstractGdataOperations implements Picasa
 		return this.addPhoto(DEFAULT_ALBUM_ID, resource, resourceType);
 	}
 
+	@Override
+	public void deletePhoto(Photo photo) {
+		this.requireAuthorization();
+		
+		this.deleteEntity(photo.getEditUrl(), photo);
+	}
+	
+	@Override
+	public void deletePhoto(String userId, String albumId, String photoId) {
+		restTemplate.delete(BASE_ENTRY_URL + getProjection() +  "/user/" + userId + "/albumid/" + albumId + "/photoid/" + photoId);
+	}
+
+	
 }

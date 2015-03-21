@@ -72,6 +72,24 @@ public abstract class AbstractGdataOperations {
 		return response.getBody();
 	}
 	
+	protected <T extends ApiEntity> void deleteEntity(String url, T entity) {
+		HttpHeaders headers = new HttpHeaders();
+				
+		HttpMethod method = HttpMethod.DELETE;
+		if (entity.getEtag()!=null) {
+			headers.set("If-Match", entity.getEtag());
+		} else {
+			headers.set("If-Match", "*");
+		}
+		
+						
+		@SuppressWarnings({ "unchecked", "unused" })
+		ResponseEntity<T> response = 
+				restTemplate.exchange(url, method, 
+						new HttpEntity<T>(headers), 
+						(Class<T>)entity.getClass());
+	}
+	
 	protected <T> T uploadEntity(String url, T metadata, Resource resource, MediaType resourceType, Class<T>clazz) {
 		
 		MultiValueMap<String, HttpEntity<?>> parts = new LinkedMultiValueMap<String, HttpEntity<?>>();
