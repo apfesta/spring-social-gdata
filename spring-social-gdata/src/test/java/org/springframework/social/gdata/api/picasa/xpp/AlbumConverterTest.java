@@ -39,6 +39,7 @@ public class AlbumConverterTest {
 		System.out.println("Feed thumbnail:"+feed.getGphotoThumbnail());
 		System.out.println("Feed Author Name:"+feed.getAuthor().getName());
 		System.out.println("Feed Author URI:"+feed.getAuthor().getUri());
+		System.out.println("Feed URI:"+feed.getFeedUri());
 		for (Album result: feed.getEntries()) {
 			System.out.println("Author Name:"+result.getAuthor().getName());
 			System.out.println("Author URI:"+result.getAuthor().getUri());
@@ -52,6 +53,7 @@ public class AlbumConverterTest {
 			System.out.println("Timestamp:"+result.getTimestamp());
 			System.out.println("Location:"+result.getLocation());
 			System.out.println("Access:"+result.getAccess());
+			System.out.println("Feed URI:"+result.getFeedUri());
 			System.out.println("Edit URL:"+result.getEditUrl());	
 			System.out.println("Media URL:"+result.getMedia().getContent().getUrl());
 			System.out.println("Media Type:"+result.getMedia().getContent().getType());

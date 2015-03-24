@@ -9,6 +9,7 @@ public class BaseFeed<E> {
 	private String title;
 	private Author author;
 	private List<E> entries;
+	private String feedUri;
 
 	public String getTitle() {
 		return title;
@@ -32,6 +33,14 @@ public class BaseFeed<E> {
 
 	public void setEntries(List<E> entries) {
 		this.entries = entries;
+	}
+
+	public String getFeedUri() {
+		return feedUri;
+	}
+
+	public void setFeedUri(String feedUrl) {
+		this.feedUri = feedUrl;
 	}
 	
 }

@@ -28,6 +28,8 @@ public class BaseAtomConverter<F extends BaseFeed<E>, E extends BaseEntry> {
 	protected static final String NS = "http://www.w3.org/2005/Atom";
 	protected static final String CATEGORY_SCHEME_KIND = "http://schemas.google.com/g/2005#kind";
 	
+	protected static final String FEED_LINK_REL = "http://schemas.google.com/g/2005#feed"; 
+	
 	protected XmlPullParserFactory factory;
 	
 	protected BaseAtomParser parser;
@@ -124,6 +126,9 @@ public class BaseAtomConverter<F extends BaseFeed<E>, E extends BaseEntry> {
 						link.rel = xpp.getAttributeValue(null,"rel");
 						link.type = xpp.getAttributeValue(null,"type");
 						link.href = xpp.getAttributeValue(null,"href");
+						if (feed!=null && entry==null) {
+							onFeedLink(feed, link);
+						}
 						if (entry!=null) {
 							onEntryLink(entry, link);
 						}
@@ -186,8 +191,17 @@ public class BaseAtomConverter<F extends BaseFeed<E>, E extends BaseEntry> {
 			}
 			return root;
 		}
+		
+		protected void onFeedLink(F feed, Link link) {
+			if (link.rel.equals(FEED_LINK_REL)) {
+				feed.setFeedUri(link.href);
+			}
+		}
 				
 		protected void onEntryLink(E entry, Link link) {
+			if (link.rel.equals(FEED_LINK_REL)) {
+				entry.setFeedUri(link.href);
+			}
 			if (link.rel.equals("edit")) {
 				entry.setEditUrl(link.href);
 			}

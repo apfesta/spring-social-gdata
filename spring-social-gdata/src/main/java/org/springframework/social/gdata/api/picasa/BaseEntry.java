@@ -12,6 +12,7 @@ public class BaseEntry extends ApiEntity {
 	private String summary;
 	private Date publishedDate;
 	private Date updatedDate;
+	private String feedUri;
 	private String editUrl;
 	private Author author;
 	private Media media;
@@ -45,6 +46,12 @@ public class BaseEntry extends ApiEntity {
 	}
 	public void setUpdatedDate(Date updatedDate) {
 		this.updatedDate = updatedDate;
+	}
+	public String getFeedUri() {
+		return feedUri;
+	}
+	public void setFeedUri(String feedUrl) {
+		this.feedUri = feedUrl;
 	}
 	public String getEditUrl() {
 		return editUrl;
