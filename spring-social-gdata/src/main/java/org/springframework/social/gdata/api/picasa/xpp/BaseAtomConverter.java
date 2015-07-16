@@ -222,6 +222,8 @@ public class BaseAtomConverter<F extends BaseFeed<E>, E extends BaseEntry> {
 					entry.setTitle(value);
 				else if (name.equals("summary"))
 					entry.setSummary(value);
+				else if (name.equals("content"))
+					entry.setContent(value);
 				else if (name.equals("published"))
 					entry.setPublishedDate(toDate(value));
 				else if (name.equals("updated"))
@@ -347,6 +349,9 @@ public class BaseAtomConverter<F extends BaseFeed<E>, E extends BaseEntry> {
 			}
 			if (entry.getUpdatedDate()!=null) {
 				as.serialize(new Attribute(NS,"updated",toString(entry.getUpdatedDate())), xs);
+			}
+			if (entry.getContent()!=null) {
+				as.serialize(new Attribute(NS,"content",entry.getContent()), xs);
 			}
 			if (entry.getGphotoId()!=null) {
 				as.serialize(new Attribute(NS_GPHOTO,"id",entry.getGphotoId()), xs);

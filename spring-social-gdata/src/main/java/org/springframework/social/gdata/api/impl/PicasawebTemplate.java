@@ -8,6 +8,8 @@ import org.springframework.social.gdata.api.PicasawebOperations;
 import org.springframework.social.gdata.api.picasa.Album;
 import org.springframework.social.gdata.api.picasa.AlbumFeed;
 import org.springframework.social.gdata.api.picasa.BaseFeed;
+import org.springframework.social.gdata.api.picasa.Comment;
+import org.springframework.social.gdata.api.picasa.CommentFeed;
 import org.springframework.social.gdata.api.picasa.Photo;
 import org.springframework.social.gdata.api.picasa.PhotoFeed;
 import org.springframework.web.client.RestTemplate;
@@ -73,18 +75,27 @@ public class PicasawebTemplate extends AbstractGdataOperations implements Picasa
 		params.setKind("photo");
 		return getUserFeed(userId, params, PhotoFeed.class);
 	}
+	
+	protected CommentFeed getCommentFeedForUser(String userId, QueryParameters params) {
+		return getUserFeed(userId, params, CommentFeed.class);
+	}
+	
+	protected CommentFeed getCommentFeedForUser(String userId) {
+		QueryParameters params = new QueryParameters();
+		params.setKind("comment");
+		return getUserFeed(userId, params, CommentFeed.class);
+	}
 		
-	/**
-	 * 
-	 * @param userId
-	 * @param albumId
-	 * @param kind "photo" or "tag"
-	 * @return
-	 */
 	protected PhotoFeed getPhotoFeedForAlbum(String userId, String albumId, QueryParameters params) {
 		return getEntity(BASE_URL + getProjection() + "/user/" + userId + "/albumid/" + albumId + 
 				createQueryString(params, "photo"), PhotoFeed.class);
 	}
+	
+	protected CommentFeed getCommentFeedForPhoto(String userId, String albumId, String photoId, QueryParameters params) {
+		return getEntity(BASE_URL + getProjection() + "/user/" + userId + "/albumid/" + albumId + "/photoid/" + photoId +
+				createQueryString(params, "comment"), CommentFeed.class);
+	}
+	
 		
 		
 	//---ALBUMS
@@ -264,6 +275,54 @@ public class PicasawebTemplate extends AbstractGdataOperations implements Picasa
 	public void deletePhoto(String userId, String albumId, String photoId) {
 		restTemplate.delete(BASE_ENTRY_URL + getProjection() +  "/user/" + userId + "/albumid/" + albumId + "/photoid/" + photoId);
 	}
+	
+	@Override
+	public CommentFeed getCommentFeed(String userId, QueryParameters params) {
+		return this.getCommentFeedForUser(userId, params);
+	}
+	
+	@Override
+	public CommentFeed getCommentFeed(String userId) {
+		return this.getCommentFeedForUser(userId);
+	}
+	
+	@Override
+	public CommentFeed getCommentFeed(String userId, String albumId,
+			String photoId, QueryParameters params) {
+		return this.getCommentFeedForPhoto(userId, albumId, photoId, params);
+	}
 
+	@Override
+	public CommentFeed getCommentFeed(String userId, String albumId,
+			String photoId) {
+		QueryParameters params = new QueryParameters();
+		params.setKind("comment");
+		return this.getCommentFeedForPhoto(userId, albumId, photoId, params);
+	}
+
+	@Override
+	public CommentFeed getMyCommentFeed(QueryParameters params) {
+		return this.getCommentFeedForUser(DEFAULT_USER_ID, params);
+	}
+
+	@Override
+	public CommentFeed getMyCommentFeed() {
+		return this.getCommentFeedForUser(DEFAULT_USER_ID);
+	}
+
+	@Override
+	public void deleteComment(String userId, String albumId, String photoId,
+			String commentId) {
+		restTemplate.delete(BASE_ENTRY_URL + getProjection() +  
+				"/user/" + userId + "/albumid/" + albumId + 
+				"/photoid/" + photoId + "/commentid/" + commentId);
+	}
+
+	@Override
+	public void deleteComment(Comment comment) {
+		this.requireAuthorization();
+		
+		this.deleteEntity(comment.getEditUrl(), comment);
+	}
 	
 }

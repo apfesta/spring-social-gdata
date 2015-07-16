@@ -9,6 +9,8 @@ import org.springframework.core.io.Resource;
 import org.springframework.http.MediaType;
 import org.springframework.social.gdata.api.picasa.Album;
 import org.springframework.social.gdata.api.picasa.AlbumFeed;
+import org.springframework.social.gdata.api.picasa.Comment;
+import org.springframework.social.gdata.api.picasa.CommentFeed;
 import org.springframework.social.gdata.api.picasa.Photo;
 import org.springframework.social.gdata.api.picasa.PhotoFeed;
 
@@ -119,6 +121,32 @@ public interface PicasawebOperations {
 	 * @param photoId
 	 */
 	public void deletePhoto(String userId, String albumId, String photoId);
+	
+	//Comments
+	public CommentFeed getCommentFeed(String userId, QueryParameters params);
+	
+	public CommentFeed getCommentFeed(String userId);
+	
+	public CommentFeed getCommentFeed(String userId, String albumId, String photoId, QueryParameters params);
+	
+	public CommentFeed getCommentFeed(String userId, String albumId, String photoId);
+	
+	public CommentFeed getMyCommentFeed(QueryParameters params);
+	
+	public CommentFeed getMyCommentFeed();
+	
+	/**
+	 * Deletes a comment when you already know the user, album, photo id
+	 * and comment id.
+	 * 
+	 * @param userId
+	 * @param albumId
+	 * @param photoId
+	 * @param commentId
+	 */
+	public void deleteComment(String userId, String albumId, String photoId, String commentId);
+	
+	public void deleteComment(Comment comment);
 	
 	public class QueryParameters {
 

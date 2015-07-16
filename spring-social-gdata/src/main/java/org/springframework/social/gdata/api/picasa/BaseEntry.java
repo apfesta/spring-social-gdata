@@ -10,6 +10,7 @@ public class BaseEntry extends ApiEntity {
 	private String gphotoId;
 	private String title;
 	private String summary;
+	private String content;
 	private Date publishedDate;
 	private Date updatedDate;
 	private String feedUri;
@@ -34,6 +35,12 @@ public class BaseEntry extends ApiEntity {
 	}
 	public void setSummary(String summary) {
 		this.summary = summary;
+	}
+	public String getContent() {
+		return content;
+	}
+	public void setContent(String content) {
+		this.content = content;
 	}
 	public Date getPublishedDate() {
 		return publishedDate;
