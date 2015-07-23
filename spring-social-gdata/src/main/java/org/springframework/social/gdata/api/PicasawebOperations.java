@@ -136,6 +136,17 @@ public interface PicasawebOperations {
 	public CommentFeed getMyCommentFeed();
 	
 	/**
+	 * Adds a comment when you already know the photo's edit URL.
+	 * 
+	 * @param photo
+	 * @param comment
+	 * @return
+	 */
+	public Comment addComment(Photo photo, String comment);
+	
+	public Comment addComment(String userId, String albumId, String photoId, String comment);
+	
+	/**
 	 * Deletes a comment when you already know the user, album, photo id
 	 * and comment id.
 	 * 

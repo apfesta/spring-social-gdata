@@ -10,6 +10,7 @@ import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.http.converter.HttpMessageNotWritableException;
 import org.springframework.social.gdata.api.picasa.Album;
 import org.springframework.social.gdata.api.picasa.BaseEntry;
+import org.springframework.social.gdata.api.picasa.Comment;
 import org.springframework.social.gdata.api.picasa.Photo;
 import org.xmlpull.v1.XmlPullParserException;
 
@@ -26,11 +27,13 @@ public class AtomEntryHttpMessageConverter
 
 	AlbumConverter albumConverter;
 	PhotoConverter photoConverter;
+	CommentConverter commentConverter;
 	
 	public AtomEntryHttpMessageConverter() {
 		super(MediaType.APPLICATION_ATOM_XML);
 		this.albumConverter = new AlbumConverter();
 		this.photoConverter = new PhotoConverter();
+		this.commentConverter = new CommentConverter();
 	}
 
 	@Override
@@ -44,6 +47,8 @@ public class AtomEntryHttpMessageConverter
 				return albumConverter.parseEntry(inputMessage);
 			} else if (Photo.class.isAssignableFrom(clazz)) {
 				return photoConverter.parseEntry(inputMessage);
+			} else if (Comment.class.isAssignableFrom(clazz)) {
+				return commentConverter.parseEntry(inputMessage);
 			} 
 		} catch (XmlPullParserException e) {
 			throw new RuntimeException(e);
@@ -61,6 +66,8 @@ public class AtomEntryHttpMessageConverter
 				albumConverter.serializeEntry(outputMessage, (Album) t);
 			} else if (t instanceof Photo) {
 				photoConverter.serializeEntry(outputMessage, (Photo) t);
+			} else if (t instanceof Comment) {
+				commentConverter.serializeEntry(outputMessage, (Comment) t);
 			} 
 		} catch (XmlPullParserException e) {
 			throw new RuntimeException(e);
@@ -71,7 +78,8 @@ public class AtomEntryHttpMessageConverter
 	@Override
 	protected boolean supports(Class<?> clazz) {
 		return (Album.class.isAssignableFrom(clazz) || 
-				Photo.class.isAssignableFrom(clazz));
+				Photo.class.isAssignableFrom(clazz) ||
+				Comment.class.isAssignableFrom(clazz));
 	}
 	
 }

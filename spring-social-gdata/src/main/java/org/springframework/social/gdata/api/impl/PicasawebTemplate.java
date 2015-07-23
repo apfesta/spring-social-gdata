@@ -310,6 +310,28 @@ public class PicasawebTemplate extends AbstractGdataOperations implements Picasa
 		return this.getCommentFeedForUser(DEFAULT_USER_ID);
 	}
 
+	public Comment addComment(Photo photo, String comment) {
+		this.requireAuthorization();
+		
+		Comment commentObj = new Comment();
+		commentObj.setContent(comment);
+		
+		return this.saveEntity(photo.getFeedUri(), commentObj);
+	}
+	
+	@Override
+	public Comment addComment(String userId, String albumId, String photoId,
+			String comment) {
+		this.requireAuthorization();
+		
+		Comment commentObj = new Comment();
+		commentObj.setContent(comment);
+		
+		return this.saveEntity(BASE_URL + getProjection() +  
+				"/user/" + userId + "/albumid/" + albumId + 
+				"/photoid/" + photoId, commentObj);
+	}
+
 	@Override
 	public void deleteComment(String userId, String albumId, String photoId,
 			String commentId) {

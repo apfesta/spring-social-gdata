@@ -66,6 +66,15 @@ public class CommentConverter extends BaseAtomConverter<CommentFeed, Comment> {
 				throws IllegalArgumentException, IllegalStateException, IOException {
 			super.serializeAttributes(entry, xs);
 		}
+
+		@Override
+		protected boolean serializeMediaNamespace() {return false;}
+
+		@Override
+		protected boolean serializeGphotoNamespace() {return false;}
+
+		@Override
+		protected boolean serializeGdNamespace() {return false;}
 	}
 	
 }

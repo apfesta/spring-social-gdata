@@ -10,6 +10,7 @@ import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.http.converter.HttpMessageNotWritableException;
 import org.springframework.social.gdata.api.picasa.AlbumFeed;
 import org.springframework.social.gdata.api.picasa.BaseFeed;
+import org.springframework.social.gdata.api.picasa.CommentFeed;
 import org.springframework.social.gdata.api.picasa.PhotoFeed;
 import org.xmlpull.v1.XmlPullParserException;
 
@@ -26,11 +27,13 @@ public class AtomFeedHttpMessageConverter
 
 	AlbumConverter albumConverter;
 	PhotoConverter photoConverter;
+	CommentConverter commentConverter;
 	
 	public AtomFeedHttpMessageConverter() {
 		super(MediaType.APPLICATION_ATOM_XML);
 		this.albumConverter = new AlbumConverter();
 		this.photoConverter = new PhotoConverter();
+		this.commentConverter = new CommentConverter();
 	}
 
 	@Override
@@ -44,6 +47,8 @@ public class AtomFeedHttpMessageConverter
 				return albumConverter.parseFeed(inputMessage);
 			} else if (PhotoFeed.class.isAssignableFrom(clazz)) {
 				return photoConverter.parseFeed(inputMessage);
+			} else if (CommentFeed.class.isAssignableFrom(clazz)) {
+				return commentConverter.parseFeed(inputMessage);
 			} 
 		} catch (XmlPullParserException e) {
 			throw new RuntimeException(e);
@@ -61,6 +66,8 @@ public class AtomFeedHttpMessageConverter
 				albumConverter.serializeFeed(outputMessage, (AlbumFeed) t);
 			} else if (t instanceof PhotoFeed) {
 				photoConverter.serializeFeed(outputMessage, (PhotoFeed) t);
+			} else if (t instanceof CommentFeed) {
+				commentConverter.serializeFeed(outputMessage, (CommentFeed) t);
 			} 
 		} catch (XmlPullParserException e) {
 			throw new RuntimeException(e);
@@ -71,7 +78,8 @@ public class AtomFeedHttpMessageConverter
 	@Override
 	protected boolean supports(Class<?> clazz) {
 		return (AlbumFeed.class.isAssignableFrom(clazz) || 
-				PhotoFeed.class.isAssignableFrom(clazz));
+				PhotoFeed.class.isAssignableFrom(clazz) ||
+				CommentFeed.class.isAssignableFrom(clazz));
 	}
 	
 }

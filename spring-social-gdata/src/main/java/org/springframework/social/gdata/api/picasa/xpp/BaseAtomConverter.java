@@ -318,10 +318,14 @@ public class BaseAtomConverter<F extends BaseFeed<E>, E extends BaseEntry> {
 		
 		protected final void serializeNamespaces(XmlSerializer xs) throws IllegalArgumentException, IllegalStateException, IOException {
 			xs.setPrefix("", NS);
-			xs.setPrefix("media", NS_MEDIA);
-			xs.setPrefix("gphoto", NS_GPHOTO);
-			xs.setPrefix("gd", NS_GD);
+			if (serializeMediaNamespace()) xs.setPrefix("media", NS_MEDIA);
+			if (serializeGphotoNamespace()) xs.setPrefix("gphoto", NS_GPHOTO);
+			if (serializeGdNamespace()) xs.setPrefix("gd", NS_GD);
 		}
+		
+		protected boolean serializeMediaNamespace() { return true;};
+		protected boolean serializeGphotoNamespace() { return true;};
+		protected boolean serializeGdNamespace() { return true;};
 		
 		protected void serializeCategories(F feed, XmlSerializer xs) throws IllegalArgumentException, IllegalStateException, IOException {
 		}
@@ -338,8 +342,12 @@ public class BaseAtomConverter<F extends BaseFeed<E>, E extends BaseEntry> {
 		
 		protected void serializeAttributes(E entry, XmlSerializer xs) throws IllegalArgumentException, IllegalStateException, IOException {
 			//required fields
-			as.serialize(new Attribute(NS,"title",entry.getTitle()), xs);
-			as.serialize(new Attribute(NS,"summary",entry.getSummary()), xs);
+			if (entry.getTitle()!=null) {
+				as.serialize(new Attribute(NS,"title",entry.getTitle()), xs);
+			}
+			if (entry.getSummary()!=null) {
+				as.serialize(new Attribute(NS,"summary",entry.getSummary()), xs);
+			}
 			//optional fields
 			if (entry.getId()!=null) {
 				as.serialize(new Attribute(NS,"id",entry.getId()), xs);
