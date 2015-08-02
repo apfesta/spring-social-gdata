@@ -29,6 +29,10 @@ public class BaseAtomConverter<F extends BaseFeed<E>, E extends BaseEntry> {
 	protected static final String CATEGORY_SCHEME_KIND = "http://schemas.google.com/g/2005#kind";
 	
 	protected static final String FEED_LINK_REL = "http://schemas.google.com/g/2005#feed"; 
+	protected static final String EDIT_LINK_REL = "edit";
+	protected static final String ALTERNATE_LINK_REL = "alternate";
+	protected static final String SELF_LINK_REL = "self";
+	protected static final String CANONICAL_LINK_REL = "http://schemas.google.com/photos/2007#canonical";
 	
 	protected XmlPullParserFactory factory;
 	
@@ -196,14 +200,26 @@ public class BaseAtomConverter<F extends BaseFeed<E>, E extends BaseEntry> {
 			if (link.rel.equals(FEED_LINK_REL)) {
 				feed.setFeedUri(link.href);
 			}
+			if (link.rel.equals(ALTERNATE_LINK_REL)) {
+				feed.setAlternateUrl(link.href);
+			}
 		}
 				
 		protected void onEntryLink(E entry, Link link) {
 			if (link.rel.equals(FEED_LINK_REL)) {
 				entry.setFeedUri(link.href);
 			}
-			if (link.rel.equals("edit")) {
+			if (link.rel.equals(EDIT_LINK_REL)) {
 				entry.setEditUrl(link.href);
+			}
+			if (link.rel.equals(ALTERNATE_LINK_REL)) {
+				entry.setAlternateUrl(link.href);
+			}
+			if (link.rel.equals(CANONICAL_LINK_REL)) {
+				entry.setCanonicalUrl(link.href);
+			}
+			if (link.rel.equals(SELF_LINK_REL)) {
+				entry.setSelfUrl(link.href);
 			}
 		}
 		

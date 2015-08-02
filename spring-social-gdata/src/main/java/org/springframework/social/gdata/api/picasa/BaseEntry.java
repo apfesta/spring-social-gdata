@@ -15,6 +15,9 @@ public class BaseEntry extends ApiEntity {
 	private Date updatedDate;
 	private String feedUri;
 	private String editUrl;
+	private String alternateUrl;
+	private String selfUrl;
+	private String canonicalUrl;
 	private Author author;
 	private Media media;
 	
@@ -77,6 +80,24 @@ public class BaseEntry extends ApiEntity {
 	}
 	public void setMedia(Media media) {
 		this.media = media;
+	}
+	public String getAlternateUrl() {
+		return alternateUrl;
+	}
+	public void setAlternateUrl(String alternateUrl) {
+		this.alternateUrl = alternateUrl;
+	}
+	public String getSelfUrl() {
+		return selfUrl;
+	}
+	public void setSelfUrl(String selfUrl) {
+		this.selfUrl = selfUrl;
+	}
+	public String getCanonicalUrl() {
+		return canonicalUrl;
+	}
+	public void setCanonicalUrl(String canonicalUrl) {
+		this.canonicalUrl = canonicalUrl;
 	}
 	
 }

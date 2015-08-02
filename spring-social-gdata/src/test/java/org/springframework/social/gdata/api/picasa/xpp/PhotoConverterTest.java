@@ -36,6 +36,7 @@ public class PhotoConverterTest {
 		System.out.println("Feed nickname:"+feed.getGphotoNickname());
 		System.out.println("Feed Author Name:"+feed.getAuthor().getName());
 		System.out.println("Feed Author URI:"+feed.getAuthor().getUri());
+		System.out.println("Feed Alternate URL:"+feed.getAlternateUrl());
 		for (Photo result: feed.getEntries()) {
 			System.out.println("Etag:"+result.getEtag());
 			System.out.println("URI:"+result.getId());
@@ -48,6 +49,8 @@ public class PhotoConverterTest {
 			System.out.println("Height:"+result.getHeight());
 			System.out.println("Width:"+result.getWidth());
 			System.out.println("Size:"+result.getSize());
+			System.out.println("Feed URI:"+result.getFeedUri());
+			System.out.println("Alternate URL:"+result.getAlternateUrl());
 			System.out.println("Edit URL:"+result.getEditUrl());	
 			System.out.println("Media URL:"+result.getMedia().getContent().getUrl());
 			System.out.println("Media Type:"+result.getMedia().getContent().getType());

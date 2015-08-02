@@ -10,6 +10,7 @@ public class BaseFeed<E> {
 	private Author author;
 	private List<E> entries;
 	private String feedUri;
+	private String alternateUrl;
 
 	public String getTitle() {
 		return title;
@@ -41,6 +42,14 @@ public class BaseFeed<E> {
 
 	public void setFeedUri(String feedUrl) {
 		this.feedUri = feedUrl;
+	}
+
+	public String getAlternateUrl() {
+		return alternateUrl;
+	}
+
+	public void setAlternateUrl(String alternateUrl) {
+		this.alternateUrl = alternateUrl;
 	}
 	
 }

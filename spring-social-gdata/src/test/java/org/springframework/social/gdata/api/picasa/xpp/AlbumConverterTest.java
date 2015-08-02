@@ -40,6 +40,7 @@ public class AlbumConverterTest {
 		System.out.println("Feed Author Name:"+feed.getAuthor().getName());
 		System.out.println("Feed Author URI:"+feed.getAuthor().getUri());
 		System.out.println("Feed URI:"+feed.getFeedUri());
+		System.out.println("Feed Alternate URL:"+feed.getAlternateUrl());
 		for (Album result: feed.getEntries()) {
 			System.out.println("Author Name:"+result.getAuthor().getName());
 			System.out.println("Author URI:"+result.getAuthor().getUri());
@@ -54,6 +55,7 @@ public class AlbumConverterTest {
 			System.out.println("Location:"+result.getLocation());
 			System.out.println("Access:"+result.getAccess());
 			System.out.println("Feed URI:"+result.getFeedUri());
+			System.out.println("Alternate URL:"+result.getAlternateUrl());
 			System.out.println("Edit URL:"+result.getEditUrl());	
 			System.out.println("Media URL:"+result.getMedia().getContent().getUrl());
 			System.out.println("Media Type:"+result.getMedia().getContent().getType());
