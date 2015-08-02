@@ -3,7 +3,7 @@
 
 	<groupId>org.springframework.social</groupId>
 	<artifactId>spring-social-gdata</artifactId>
-	<version>0.0.5</version>
+	<version>0.0.6-SNAPSHOT</version>
 	<packaging>jar</packaging>
 
 	<name>spring-social-gdata</name>
@@ -17,7 +17,7 @@
 		<connection>scm:git:ssh://git@github.com/apfesta/spring-social-gdata.git</connection>
 		<developerConnection>scm:git:ssh://git@github.com/apfesta/spring-social-gdata.git</developerConnection>
 		<url>https://github.com/apfesta/spring-social-gdata</url>
-	  <tag>spring-social-gdata-0.0.5</tag>
+	  <tag>HEAD</tag>
   </scm>
 
 	<distributionManagement>
