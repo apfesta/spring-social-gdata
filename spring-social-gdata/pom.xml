@@ -11,6 +11,7 @@
 
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<nexus.host>nexus:8081</nexus.host>
 	</properties>
 
 	<scm>
@@ -24,12 +25,12 @@
 		<repository>
 			<id>releases</id>
 			<name>Release Repository</name>
-			<url>http://ubuntu-cm:8081/nexus/content/repositories/releases</url>
+			<url>http://${nexus.host}/content/repositories/releases</url>
 		</repository>
 		<snapshotRepository>
 			<id>snapshots</id>
 			<name>Snapshot Repository</name>
-			<url>http://ubuntu-cm:8081/nexus/content/repositories/snapshots</url>
+			<url>http://${nexus.host}/content/repositories/snapshots</url>
 		</snapshotRepository>
 		<site> 
             <id>site-distribution</id> 
